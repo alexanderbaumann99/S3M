@@ -1,0 +1,22 @@
+SEED: 42                                              # Random seed
+data:
+  data_folds: <data folds>                            # List of folds, e.g. [[0,1], [2,3], [4,5]]
+  val_fold: 0                                         # Validation fold, e.g. 0 means fold [0,1] is the validation fold
+  data_path: <path to mesh files>                     # Path to mesh files
+  output_path: <path to output directory>             # Path to output directory
+ssm:
+  feat_size: 352                                      # Descriptor dimension of Graph Neural Network
+  n_points: 4000                                      # Number of points to which the meshes are downsampled during the preprocessing of training
+  n_points_inference: 2048                            # Number of points to which the meshes are downsampled during the preprocessing of inference
+  n_jobs: 1                                           # Number of jobs in multiprocessing
+  n_lbo_eigenfunctions: 20                            # Number of used eigenfunctions of Laplace-Beltrami-Operator
+  scaling: [0.12, 0.12, 0.12]                         # Scaling vector for unit conversion, e.g. [0.12,0.12,0.12] for our thyroid dataset
+  weights: null                                       # Pretrained weights of the GNN 
+  TrainingDetails:
+    batch_size: 64                                    # Batch size during training
+    lr: 0.0001                                        # Learning Rate
+    n_epochs: 30                                      # Number of training epochs
+    n_sample_points: 2048                             # Number of points to which the meshes are downsampled in each training iteration  
+  TestingDetails:
+    reference_shape: null                             # Number of reference shape during inference
+    variance_pmf:  1000                               # Variance of Gaussian Kernel in PMF postprocessing
