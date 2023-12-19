@@ -4,17 +4,18 @@ from sslap import auction_solve
 
 
 def pmf(
-    corres_idx: torch.Tensor, dist_x: torch.Tensor, dist_y: torch.Tensor, var
+    corres_idx: torch.Tensor, dist_x: torch.Tensor, dist_y: torch.Tensor, var: float
 ) -> np.ndarray:
     """
     Implementation of product manifold filter (PMF).
     Args:
-        points_x:       points of shape x
-        points_y:       points of shape y
-        corres_idx:     non-bijective correspondences between x and y
+        corres_idx:     noisy correspondences between x and y
+                        Shape: (n_vertices x 2)
         dist_x:         geodesic distance of shape x
+                        Shape: (n_vertices x n_vertices)
         dist_y:         geodesic distance of shape y
-        var:            Variance of Gaussian Kernel 
+                        Shape: (n_vertices x n_vertices)
+        var:            variance of Gaussian Kernel 
     Returns:
         bij_corres:     bijective correspondences between x and y
 

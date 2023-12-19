@@ -44,14 +44,17 @@ def gaussian(verts: np.ndarray, mu: float, sigma: float):
 def modify_vert(init_point, adj, rad, norms, vert, sig, gauss_mul, vertex_colors):
     """
     modifies input verticies according to 3d gaussian and norm of the vertex point
-    perturb the vertex by f(u) * norm direction
-        with f  as 3D gaussian centered at init_point
-    init_point : initial vertex point index (center point of pertubation)
-    rad : radius to modify
-    norms : norms of the vertices
-    vert : vertices of meshes
-    vertex_colors : for visualization
-    return : vert - returns modified vertices
+    perturb the vertex by f(u) * norm direction with f  as 3D gaussian centered 
+    at init_point.
+    Args:
+        init_point:         initial vertex point index
+                            (center point of pertubation)
+        rad:                radius to modify
+        norms:              norms of the vertices
+        vert:               vertices of meshes
+        vertex_colors:      for visualization
+    Returns:
+        vert:               modified vertices
     """
     vert_list = get_deform_vertices(init_point, rad, adj)
     add_const = []
