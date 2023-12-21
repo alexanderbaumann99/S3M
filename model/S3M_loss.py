@@ -1,3 +1,4 @@
+# Code from: https://github.com/pvnieo/SURFMNet-pytorch
 import numpy as np
 import torch
 from torch import nn
@@ -6,7 +7,6 @@ from torch import nn
 class S3MNetLoss(nn.Module):
     """
     Calculate the loss as presented in the SURFMNet paper.
-    Code from: https://github.com/pvnieo/SURFMNet-pytorch
     """
 
     def __init__(

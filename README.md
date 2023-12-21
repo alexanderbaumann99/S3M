@@ -24,8 +24,8 @@ This implementation uses Python 3.8, PyTorch 2.0 and Cuda 11.8. We recommend to 
   * Install the basic framework (Cuda, PyTorch, NumPy):
   ```
   conda install -c "nvidia/label/cuda-11.8.0" cuda-toolkit
-  export PATH=~/miniconda3/envs/s3m/bin:{$PATH}
-  export LD_LIBRARY_PATH=~/miniconda3/envs/s3m/lib:${LD_LIBRARY_PATH}
+  export PATH=<path to miniconda3>/envs/s3m/bin:{$PATH}
+  export LD_LIBRARY_PATH=<path to miniconda3>/envs/s3m/lib:${LD_LIBRARY_PATH}
   pip install numpy==1.23.5
   pip install -i https://download.pytorch.org/whl/cu118 torch==2.0.0 
   ```
@@ -112,11 +112,13 @@ With the defined [Statistical Shape Model class](evaluation/SSM.py) you can obta
 ### Citation
 If you find our work helpful, please consider citing
 ```
-@article{bastian2023s3m,
-  title={S3m: Scalable statistical shape modeling through unsupervised correspondences},
+@inproceedings{bastian2023s3m,
+  title={S3M: scalable statistical shape modeling through unsupervised correspondences},
   author={Bastian, Lennart and Baumann, Alexander and Hoppe, Emily and B{\"u}rgin, Vincent and Kim, Ha Young and Saleh, Mahdi and Busam, Benjamin and Navab, Nassir},
-  journal={arXiv preprint arXiv:2304.07515},
-  year={2023}
+  booktitle={International Conference on Medical Image Computing and Computer-Assisted Intervention},
+  pages={459--469},
+  year={2023},
+  organization={Springer}
 }
 ```
 ---

@@ -4,6 +4,7 @@ potpourri3d
 trimesh
 chamferdist
 pyyaml
+robust_laplacian
 tensorboard
 sslap @ git+https://github.com/OllieBoyne/sslap@master
 
