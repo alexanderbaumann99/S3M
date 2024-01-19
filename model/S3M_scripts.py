@@ -291,7 +291,7 @@ def inference_S3M(cfg: dict, model: torch.nn.Module = None):
         root = cfg["preprocessed_data_root"],
         n_eigen = cfg["n_lbo_eigenfunctions"],
         mode="test",
-        n_points=cfg["TrainingDetails"]["n_sample_points"],
+        n_points=None,
         ref_shape=cfg["TestingDetails"]["reference_shape"],
         device=device,
     )
@@ -306,7 +306,7 @@ def inference_S3M(cfg: dict, model: torch.nn.Module = None):
         s3mnet = s3mnet.to(device)
     criterion = S3MNetLoss().to(device)
 
-    # Training loop
+    # Inference loop
     logging.info("Start testing")
     for iteration, data in tqdm(enumerate(dataloader), total=len(dataloader)):
         ref_num = dataset.combinations[iteration][0]

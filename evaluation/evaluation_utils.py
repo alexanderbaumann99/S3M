@@ -16,7 +16,7 @@ def get_correspondended_vertices(
         corresponded_vertices_train:    Corresponded vertices of specific shapes
         n_points:                       Number of points in SSM (flattened)
     """
-    corresponded_vertices_all = np.transpose(np.load(path), (0, 2, 1))
+    corresponded_vertices_all = np.transpose(np.load(path), (1,2,0))
     n_shapes = corresponded_vertices_all.shape[2]
     corresponded_vertices_all = corresponded_vertices_all.reshape(-1, n_shapes)
     corresponded_vertices_train = corresponded_vertices_all[:, idx_train_shapes]
@@ -25,7 +25,7 @@ def get_correspondended_vertices(
     return corresponded_vertices_train, n_points
 
 
-def get_target_point_cloud(path: str, val_idx: int) -> trimesh.Trimesh:
+def get_target_point_cloud(path: str, val_idx: int, scaling: np.ndarray) -> np.ndarray:
     """
     Get original target point cloud to measure error.
     Args:
@@ -35,6 +35,8 @@ def get_target_point_cloud(path: str, val_idx: int) -> trimesh.Trimesh:
         target:     Centered target point cloud
     """
     target = trimesh.load(os.path.join(path, "{:03d}.ply".format(val_idx))).vertices
+    if scaling is not None:
+        target *= np.array(scaling)
     target -= np.mean(target, axis=0)
     return target
 
@@ -49,6 +51,6 @@ def get_test_point_cloud(path: str, val_idx: int) -> np.ndarray:
     Returns:
         test_point_cloud:   Flattened point cloud in correspondence
     """
-    corresponded_vertices_all = np.transpose(np.load(path), (0, 2, 1))
+    corresponded_vertices_all = np.transpose(np.load(path), (1,2,0))
     test_point_cloud = corresponded_vertices_all[..., val_idx]
     return test_point_cloud.reshape(-1)

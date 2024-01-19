@@ -3,6 +3,12 @@ from pathlib import Path
 import scipy.io as sio
 import numpy as np
 
+def _get_inv(y2x: list):
+    n = len(y2x)
+    inv = [0] * n
+    for i in range(n):
+        inv[y2x[i]] = i
+    return inv
 
 def save_corresponding_vertices(mat_savedir: str, n_ref: int):
     """
@@ -18,8 +24,7 @@ def save_corresponding_vertices(mat_savedir: str, n_ref: int):
     ref_mat = sio.loadmat(
         os.path.join(mat_savedir, "out_{:03d}_{:03d}.mat".format(n_ref, 0))
     )
-    for vert in ref_mat["verts_x"]:
-        corres_verts.append([vert])
+    corres_verts = [ref_mat['verts_x']]
 
     # Load and add corresponded vertices from other shapes
     for shape_idx in range(len(os.listdir(mat_savedir))):
@@ -28,17 +33,17 @@ def save_corresponding_vertices(mat_savedir: str, n_ref: int):
                 os.path.join(mat_savedir, "out_{:03d}_{:03d}.mat".format(n_ref, shape_idx))
             )
             correspondence_idx = list(mat["y2x_pmf"].squeeze().astype(int))
-            for idx_y, idx_ref in enumerate(correspondence_idx):
-                corres_verts[idx_ref].append(mat["verts_y"][idx_y])
+            inv = _get_inv(correspondence_idx)
+            corres_verts.append(mat['verts_y'][inv])
 
     # Convert to NumPy array for easier manipulation
     corres_verts = np.array(corres_verts)
 
     # Rearrange the array to match the desired format
     rearranged = np.empty_like(corres_verts)
-    rearranged[:, :n_ref] = corres_verts[:, 1 : (n_ref + 1)]
-    rearranged[:, n_ref] = corres_verts[:, 0]
-    rearranged[:, (n_ref + 1) :] = corres_verts[:, (n_ref + 1) :]
+    rearranged[:n_ref] = corres_verts[1 : (n_ref + 1)]
+    rearranged[n_ref] = corres_verts[0]
+    rearranged[(n_ref + 1)] = corres_verts[n_ref + 1]
 
     # Save the rearranged array as a NumPy binary file
     np.save(Path(mat_savedir).parent / "corres_verts.npy", rearranged)

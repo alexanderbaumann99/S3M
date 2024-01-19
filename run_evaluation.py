@@ -28,7 +28,7 @@ def run_evaluation(save_dir: str):
 
     with open(os.path.join(fold_dir.format(0), "config.yml"), "r") as file:
         config = yaml.load(file, Loader=yaml.FullLoader)
-
+    scaling = config['ssm']['scaling']
     path_meshes = config["data"]["data_path"]
     path_correspondend_verts_per_fold = os.path.join(
         fold_dir,
@@ -68,7 +68,7 @@ def run_evaluation(save_dir: str):
             reconstruction = reconstruction.reshape(1, -1, 3)
             reconstruction = torch.Tensor(reconstruction).to(device)
 
-            target = get_target_point_cloud(path_meshes, i)
+            target = get_target_point_cloud(path_meshes, i, scaling = scaling )
             target_cloud = torch.Tensor(target).view(1, -1, 3).to(device)
             # Compute generalization error
             generalizations_per_fold.append(
@@ -83,7 +83,7 @@ def run_evaluation(save_dir: str):
 
         training_point_clouds = []
         for i in train_set:
-            target = get_target_point_cloud(path_meshes, i)
+            target = get_target_point_cloud(path_meshes, i, scaling = scaling)
             training_point_clouds.append(torch.Tensor(target).unsqueeze(0).to(device))
 
         # For each sample...
